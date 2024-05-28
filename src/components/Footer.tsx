@@ -1,6 +1,8 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
-import logo from '../../assets/svg/logo.svg'
+import logo from '../assets/svg/logo.svg'
 
 export default function Footer() {
 	return (
