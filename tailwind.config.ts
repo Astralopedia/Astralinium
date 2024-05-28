@@ -2,6 +2,10 @@ import type { Config } from "tailwindcss";
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
+const {
+  iconsPlugin,
+  getIconCollections,
+} = require("@egoist/tailwindcss-icons");
 
 const config: Config = {
   content: [
@@ -11,9 +15,29 @@ const config: Config = {
   ],
   darkMode: "class",
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        shimmer: "shimmer 2s linear infinite",
+      },
+      keyframes: {
+        shimmer: {
+          from: {
+            backgroundPosition: "0 0",
+          },
+          to: {
+            backgroundPosition: "-200% 0",
+          },
+        },
+      },
+    },
   },
-  plugins: [require("daisyui"), addVariablesForColors],
+  plugins: [
+    require("daisyui"),
+    addVariablesForColors,
+    iconsPlugin({
+      collections: getIconCollections(["fa6-brands"]),
+    }),
+  ],
 };
 
 export default config;
