@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { TypewriterEffect } from './ui/typewriter-effect'
 
 export default function Header() {
@@ -32,9 +33,11 @@ export default function Header() {
 				<TypewriterEffect words={text_1} />
 				<TypewriterEffect words={text_2} />
 				<div className='flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 mt-10'>
-					<button className='inline-flex h-12 animate-shimmer items-center justify-center rounded-full border border-none bg-[linear-gradient(110deg,#7369CA,45%,#857cd1,55%,#7369CA)] bg-[length:200%_100%] px-6 font-medium text-slate-100 transition-colors z-[1]'>
+					<Link
+						href='/dashboard'
+						className='inline-flex h-12 animate-shimmer items-center justify-center rounded-full border border-none bg-[linear-gradient(110deg,#7369CA,45%,#857cd1,55%,#7369CA)] bg-[length:200%_100%] px-6 font-medium text-slate-100 transition-colors z-[1]'>
 						Upload Now
-					</button>
+					</Link>
 				</div>
 			</div>
 		</div>
