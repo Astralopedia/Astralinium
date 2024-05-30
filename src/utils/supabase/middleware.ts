@@ -1,4 +1,5 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { deleteCookie, getCookie, setCookie } from 'cookies-next'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export const createClient = (request: NextRequest) => {
@@ -14,39 +15,19 @@ export const createClient = (request: NextRequest) => {
 		{
 			cookies: {
 				get(name: string) {
-					return request.cookies.get(name)?.value
+					return getCookie(name, { req: request, res: response })
 				},
 				set(name: string, value: string, options: CookieOptions) {
-					request.cookies.set({
-						name,
-						value,
-						...options,
-					})
-					response = NextResponse.next({
-						request: {
-							headers: request.headers,
-						},
-					})
-					response.cookies.set({
-						name,
-						value,
+					setCookie(name, value, {
+						req: request,
+						res: response,
 						...options,
 					})
 				},
 				remove(name: string, options: CookieOptions) {
-					request.cookies.set({
-						name,
-						value: '',
-						...options,
-					})
-					response = NextResponse.next({
-						request: {
-							headers: request.headers,
-						},
-					})
-					response.cookies.set({
-						name,
-						value: '',
+					deleteCookie(name, {
+						req: request,
+						res: response,
 						...options,
 					})
 				},

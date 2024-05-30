@@ -32,7 +32,7 @@ const config: Config = {
 		require('daisyui'),
 		addVariablesForColors,
 		iconsPlugin({
-			collections: getIconCollections(['fa6-brands']),
+			collections: getIconCollections(['fa6-brands', 'fa6-solid']),
 		}),
 	],
 }

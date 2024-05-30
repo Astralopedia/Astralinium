@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { Toaster } from 'react-hot-toast'
 import Footer from '../components/Footer'
 import './globals.css'
 
@@ -20,6 +21,7 @@ export default function RootLayout({
 			<body className={inter.className}>
 				{children}
 				<Footer />
+				<Toaster position='top-right' />
 			</body>
 		</html>
 	)

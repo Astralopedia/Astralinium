@@ -8,7 +8,7 @@ export default function Footer() {
 	return (
 		<footer className='footer items-center p-4 bg-base-200 text-neutral-content'>
 			<aside className='items-center grid-flow-col'>
-				<Image src={logo} alt='logo' className='w-10 h-10' />
+				<Image src={logo} alt='logo' className='w-8 h-8' />
 				<p>
 					© 2024{' '}
 					<Link
