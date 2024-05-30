@@ -15,7 +15,9 @@ export default function UploadForm() {
 		if (result?.error) {
 			toast.error(result.error.message)
 		} else {
-			toast.success('File uploaded successfully')
+			toast.success(
+				'File uploaded successfully. Your file is under review and will be available soon.',
+			)
 			setFile(null)
 		}
 		setIsSubmit(false)
