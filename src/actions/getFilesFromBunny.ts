@@ -4,7 +4,7 @@ import fetch from 'node-fetch'
 
 const getFilesFromBunny = async () => {
 	const res = await fetch(
-		`https://storage.bunnycdn.com/${process.env.BUNNY_STORAGE_NAME}/astralinium/`,
+		`https://storage.bunnycdn.com/${process.env.BUNNY_STORAGE_NAME}/Astralinium/`,
 		{
 			method: 'GET',
 			headers: {
@@ -14,7 +14,7 @@ const getFilesFromBunny = async () => {
 		},
 	)
 
-	return res.body
+	return (await res.json()) as any[]
 }
 
 export default getFilesFromBunny

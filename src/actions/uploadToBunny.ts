@@ -7,7 +7,7 @@ const uploadToBunny = async (filename: string, imageUrl: string) => {
 	const buffer = await (await fetch(imageUrl)).arrayBuffer()
 
 	const res = await fetch(
-		`https://storage.bunnycdn.com/${process.env.BUNNY_STORAGE_NAME}/astralinium/${filename}`,
+		`https://storage.bunnycdn.com/${process.env.BUNNY_STORAGE_NAME}/Astralinium/${filename}`,
 		{
 			method: 'PUT',
 			headers: {
