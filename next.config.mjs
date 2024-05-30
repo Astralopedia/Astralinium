@@ -6,7 +6,10 @@ const nextConfig = {
 				hostname: 'api.dicebear.com',
 			},
 			{
-				hostname: 'jzqegimyakethcnqrtaf.supabase.co',
+				hostname: 'jzqegimyakethcnqrtaf.supabase.co', // development
+			},
+			{
+				hostname: 'dxijzrgcudnteqgwjono.supabase.co', // production
 			},
 		],
 	},
