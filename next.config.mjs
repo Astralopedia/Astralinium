@@ -9,7 +9,7 @@ const nextConfig = {
 				hostname: 'jzqegimyakethcnqrtaf.supabase.co', // development
 			},
 			{
-				hostname: 'dxijzrgcudnteqgwjono.supabase.co', // production
+				hostname: 'rvunronzwxzejkbmmmtr.supabase.co', // production
 			},
 		],
 	},
