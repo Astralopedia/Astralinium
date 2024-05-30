@@ -14,7 +14,7 @@ const uploadFile = async (formData: FormData) => {
 	} = await supabase.auth.getUser()
 	const { data, error } = await supabase.storage
 		.from(process.env.SUPABASE_BUCKET!)
-		.upload(`${user?.id}_${file.name}_${Date.now()}`, file)
+		.upload(`${user?.id}_${file.name}`, file)
 
 	return { error: error }
 }

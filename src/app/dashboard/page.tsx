@@ -1,5 +1,6 @@
 'use server'
 
+import getNameById from '@/actions/getNameById'
 import Card, { CardProps } from '@/components/ui/Card'
 import { createClient } from '@/utils/supabase/client'
 import Link from 'next/link'
@@ -10,15 +11,17 @@ export default async function Dashboard() {
 	const bucket = supabase.storage.from(process.env.SUPABASE_BUCKET!)
 	const { data, error } = await bucket.list()
 
-	data?.forEach(async data => {
-		if (/^image\/(png|jpg|gif|jpeg)$/.test(data.metadata.mimetype)) {
-			cards.push({
-				imageUrl: bucket.getPublicUrl(data.name).data.publicUrl,
-				author: 'a',
-				filename: data.name,
-			})
-		}
-	})
+	await Promise.all(
+		(data as any[]).map(async data => {
+			if (/^image\/(png|jpg|gif|jpeg)$/.test(data.metadata.mimetype)) {
+				cards.push({
+					imageUrl: bucket.getPublicUrl(data.name).data.publicUrl,
+					author: await getNameById(data.name.split('_')[0]),
+					filename: data.name,
+				})
+			}
+		}),
+	)
 
 	return (
 		<div className='w-full h-screen'>
