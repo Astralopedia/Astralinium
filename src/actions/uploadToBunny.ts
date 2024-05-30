@@ -20,7 +20,7 @@ const uploadToBunny = async (filename: string, imageUrl: string) => {
 
 	await deleteFile([filename])
 
-	return res
+	return res.status
 }
 
 export default uploadToBunny

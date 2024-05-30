@@ -22,8 +22,8 @@ export default function Card({ imageUrl, author, filename }: CardProps) {
 	const handleAccept = async () => {
 		const result = await uploadToBunny(filename, imageUrl)
 
-		if (result?.status !== 200) {
-			toast.error(result.statusText)
+		if (result !== 200) {
+			toast.error("Cannot upload image to Bunny storage")
 		} else {
 			toast.success('File uploaded successfully')
 			router.push('/dashboard')
