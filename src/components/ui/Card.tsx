@@ -1,6 +1,7 @@
 'use client'
 
 import deleteFile from '@/actions/deleteFile'
+import uploadToBunny from '@/actions/uploadToBunny'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -19,14 +20,14 @@ export default function Card({ imageUrl, author, filename }: CardProps) {
 		}
 	}
 	const handleAccept = async () => {
-		//const result = await uploadToGitHub(filename, imageUrl)
+		const result = await uploadToBunny(filename, imageUrl)
 
-		/**if (result?.error) {
-			toast.error(result.error.message)
+		if (result?.status !== 200) {
+			toast.error(result.statusText)
 		} else {
 			toast.success('File uploaded successfully')
 			router.push('/dashboard')
-		}*/
+		}
 		toast.error('This feature is being developed')
 	}
 
