@@ -1,32 +1,101 @@
-'use client'
+'use server'
 
+import Logo from '@/assets/svg/logo.svg'
 import Image from 'next/image'
 import Link from 'next/link'
-import logo from '../assets/svg/logo.svg'
 
-export default function Footer() {
+interface FooterItem {
+	name: string
+	url: string
+}
+
+export default async function Footer() {
+	const getCommitRef = () => {
+		return process.env.COMMIT_REF?.substring(0, 7)
+	}
+	const footerItems: FooterItem[][] = [
+		[
+			{
+				name: 'Support',
+				url: '',
+			},
+			{
+				name: 'Status',
+				url: '',
+			},
+		],
+		[
+			{
+				name: 'Discord',
+				url: '',
+			},
+		],
+		[
+			{
+				name: 'Terms of use',
+				url: '',
+			},
+			{
+				name: 'Privacy policy',
+				url: '',
+			},
+			{
+				name: 'Cookie policy',
+				url: '',
+			},
+		],
+	]
+
 	return (
-		<footer className='footer items-center p-4 bg-base-200 text-neutral-content'>
-			<aside className='items-center grid-flow-col'>
-				<Image src={logo} alt='logo' className='w-8 h-8' />
+		<footer className='footer p-10 bg-base-200 text-base-content'>
+			<aside>
+				<Image
+					src={Logo}
+					alt='logo'
+					loading='lazy'
+					className='w-16 h-16'
+				/>
+				<p className=''>
+					Astralinium is{' '}
+					<a
+						href='https://github.com/Astralopedia/Astralopedia'
+						className='link link-primary link-hover link-info'>
+						open source
+					</a>
+				</p>
 				<p>
-					© 2024{' '}
-					<Link
-						href='https://github.com/Astralopedia'
-						className='text-[#7369CA]'>
-						Astralopedia
-					</Link>
+					astralopedia/astralinium@
+					<a
+						className='link link-primary link-hover link-info'
+						href={`https://github.com/Astralopedia/Astralopedia/commit/${getCommitRef()}`}>
+						{getCommitRef()}
+					</a>
 				</p>
 			</aside>
-			<nav className='grid-flow-col gap-4 md:place-self-center md:justify-self-end'>
-				<Link href='https://discord.gg/mNeHyuZdqm' target='_blank'>
-					<span className='i-fa6-brands-discord w-6 h-6'></span>
-				</Link>
-				<Link
-					href='https://github.com/Astralopedia/Astralinium'
-					target='_blank'>
-					<span className=' i-fa6-brands-github w-6 h-6'></span>
-				</Link>
+			<nav>
+				<h6 className='footer-title'>Resources</h6>
+				{footerItems[0].map(({ name, url }) => (
+					<Link key={name} href={url} className='link no-underline'>
+						{name}
+					</Link>
+				))}
+			</nav>
+			<nav>
+				<h6 className='footer-title'>Community</h6>
+
+				{footerItems[1].map(({ name, url }) => (
+					<Link key={name} href={url} className='link no-underline'>
+						{name}
+					</Link>
+				))}
+			</nav>
+			<nav>
+				<h6 className='footer-title'>Legal</h6>
+				{footerItems[2].map(({ name, url }) => (
+					<Link key={name} href={url} className='link no-underline'>
+						{name}
+					</Link>
+				))}
 			</nav>
 		</footer>
 	)

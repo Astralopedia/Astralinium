@@ -1,57 +1,97 @@
 'use server'
 
-import getNameById from '@/actions/getNameById'
-import Card, { CardProps } from '@/components/ui/Card'
-import { createClient } from '@/utils/supabase/client'
-import Link from 'next/link'
+import { getImages } from '@/actions/api/Bunny'
+import getUsernameById from '@/actions/clerk/getUsernameById'
+import Appearance from '@/components/appearance'
+import Menu from '@/components/menu'
+import MyGallery from '@/components/my-gallery'
+import PrivateGallery, { EdgeStoreImage } from '@/components/private-gallery'
+import UploadFile from '@/components/upload-file'
+import { backendEdgeStoreClient } from '@/lib/edgestore-server'
+import { OrganizationSwitcher, Protect } from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs/server'
+import { DateTime } from 'luxon'
+import { SearchParams } from 'nuqs/parsers'
+import path from 'path'
+import { Suspense } from 'react'
+import { URL } from 'url'
+import Loading from './loading'
+import { searchParamsCache } from './searchParams'
 
-export default async function Dashboard() {
-	const cards: CardProps[] = []
-	const supabase = await createClient()
-	const bucket = supabase.storage.from(process.env.SUPABASE_BUCKET!)
-	const { data, error } = await bucket.list()
+interface PageProps {
+	searchParams: SearchParams
+}
 
-	await Promise.all(
-		(data as any[]).map(async data => {
-			if (/^image\/(png|jpg|gif|jpeg)$/.test(data.metadata.mimetype)) {
-				cards.push({
-					imageUrl: bucket.getPublicUrl(data.name).data.publicUrl,
-					author: await getNameById(data.name.split('_')[0]),
-					filename: data.name,
-				})
-			}
-		}),
+export default async function Dashboard({ searchParams }: PageProps) {
+	searchParamsCache.parse(searchParams)
+	const { t } = searchParamsCache.all()
+	const user = await currentUser()
+	const data = await getImages()
+	const edgeStoreData: EdgeStoreImage[] = await Promise.all(
+		(
+			await backendEdgeStoreClient.publicFiles.listFiles({
+				pagination: { currentPage: 1, pageSize: 100 },
+			})
+		).data.map(async item => ({
+			filename: path.basename(new URL(item.url).pathname),
+			url: item.url,
+			size: item.size,
+			uploadedAt: DateTime.fromJSDate(item.uploadedAt).toISO()!,
+			author: await getUsernameById(
+				path
+					.basename(new URL(item.url).pathname)
+					.match(/user_[a-zA-Z0-9]+/)![0],
+			),
+		})),
 	)
 
 	return (
-		<div className='w-full h-screen'>
-			{cards.length === 0 ? (
-				<div className='w-full h-full grid place-content-center'>
-					<div className='w-full h-full grid place-items-center gap-6'>
-						<p className='text-center text-4xl'>
-							No more new images
-						</p>
-						<Link
-							href='/dashboard'
-							className='btn btn-secondary text-white'>
-							Refresh
-						</Link>
+		<div className='w-full h-full text-base-content'>
+			<div className='grid p-8 md:p-16 gap-6 w-full grid-cols-3'>
+				<div className='col-span-3 md:col-span-1 flex flex-col gap-8 w-full'>
+					<OrganizationSwitcher
+						appearance={{
+							elements: {
+								organizationSwitcherTrigger: 'bg-base-200',
+							},
+						}}
+					/>
+					<div className='card w-full bg-base-200'>
+						<div className='card-body'>
+							<h2 className='card-title'>Hi, {user?.username}</h2>
+							<p className='text-lg'>
+								You have uploaded{' '}
+								<span className='bg-orange-400 text-white p-1 rounded-lg'>
+									23
+								</span>{' '}
+								files on Astralinium
+							</p>
+						</div>
 					</div>
+					<Menu />
 				</div>
-			) : (
-				<div className='grid place-items-center grid-cols-1 md:grid-cols-2 xl:grid-cols-4 p-12 gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6'>
-					{cards.map(({ imageUrl, author, filename }) => {
-						return (
-							<Card
-								imageUrl={imageUrl}
-								author={author}
-								filename={filename}
-								key={filename}
-							/>
-						)
-					})}
+				<div className='col-span-3 md:col-span-2 w-full h-full bg-base-200 rounded-2xl'>
+					{t === 'my-gallery' ? (
+						<Suspense fallback={<Loading />}>
+							<MyGallery images={data} />
+						</Suspense>
+					) : t === 'upload-files' ? (
+						<div>
+							<UploadFile userId={user?.id!} />
+						</div>
+					) : t === 'appearance' ? (
+						<Appearance />
+					) : t === 'review-images' ? (
+						<Protect
+							permission='org:image:add'
+							fallback={<p>Nothing here for you</p>}>
+							<Suspense fallback={<Loading />}>
+								<PrivateGallery images={edgeStoreData} />
+							</Suspense>
+						</Protect>
+					) : null}
 				</div>
-			)}
+			</div>
 		</div>
 	)
 }

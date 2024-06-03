@@ -1,42 +1,37 @@
-'use client'
-
+import { BookImage, LayoutDashboard } from 'lucide-react'
 import Link from 'next/link'
-import { TypewriterEffect } from './ui/TypewriterEffect'
 
 export default function Header() {
-	const text_1 = [
-		{
-			text: 'Astralinium',
-			className: 'text-[#7369CA] font-semibold',
-		},
-	]
-	const text_2 = [
-		{
-			text: 'A',
-		},
-		{
-			text: 'database',
-		},
-		{
-			text: 'for',
-		},
-		{
-			text: 'Astralopedia.',
-			className: 'text-[#c382f0]',
-		},
-	]
-
 	return (
-		<div className=''>
-			{' '}
-			<div className='flex flex-col items-center justify-center h-screen'>
-				<TypewriterEffect words={text_1} />
-				<TypewriterEffect words={text_2} />
-				<div className='flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 mt-10'>
+		<div className='w-full h-screen grid place-items-center'>
+			<div className='container text-center'>
+				<p className='text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-bold'>
+					The{' '}
+					<span className='bg-orange-400 bg-clip-text text-transparent'>
+						storage
+					</span>{' '}
+					for{' '}
+					<span className='bg-[#c382f0] bg-clip-text text-transparent'>
+						Astralopedia
+					</span>
+				</p>
+				<p className='text-lg sm:text-xl md:text-2xl my-6 w-2/3 mx-auto'>
+					Astralinium is a storage where users upload their images and
+					Create&apos;s schematic files and deliver them faster than
+					ever before
+				</p>
+				<div className='inline-flex flex-col sm:flex-row gap-3 w-2/3 justify-center'>
 					<Link
-						href='/upload-file'
-						className='inline-flex h-12 animate-shimmer items-center justify-center rounded-full border border-none bg-[linear-gradient(110deg,#7369CA,45%,#857cd1,55%,#7369CA)] bg-[length:200%_100%] px-6 font-medium text-slate-100 transition-colors z-[1]'>
-						Upload Now
+						href='/dashboard'
+						className='btn btn-accent rounded-xl w-full sm:w-auto'>
+						<LayoutDashboard />
+						Dashboard
+					</Link>
+					<Link
+						href='/gallery'
+						className='btn btn-secondary rounded-xl w-full sm:w-auto'>
+						<BookImage />
+						View Gallery
 					</Link>
 				</div>
 			</div>

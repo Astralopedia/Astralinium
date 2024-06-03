@@ -1,13 +1,9 @@
-'use client'
-
-import Header from '../components/Header'
-import { BackgroundBeams } from '../components/ui/BackgroundBeams'
+import Header from '@/components/header'
 
 export default function Home() {
 	return (
-		<div>
+		<div className=''>
 			<Header />
-			<BackgroundBeams />
 		</div>
 	)
 }

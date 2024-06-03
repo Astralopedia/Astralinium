@@ -9,18 +9,15 @@ const nextConfig = {
 				hostname: 'jzqegimyakethcnqrtaf.supabase.co', // development
 			},
 			{
-				hostname: 'umvgbjvnebibgyktquus.supabase.co', // production
+				hostname: 'files.edgestore.dev', // production
 			},
 			{
 				hostname: 'cdn.toby7002.dev',
 			},
+			{
+				hostname: 'dummyjson.com',
+			},
 		],
-	},
-	experimental: {
-		reactCompiler: true,
-		serverActions: {
-			bodySizeLimit: "50mb"
-		}
 	},
 }
 

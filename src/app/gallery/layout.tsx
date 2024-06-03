@@ -1,26 +1,13 @@
-import isCensor from '@/actions/isCensor'
-import NavBar from '@/components/NavBar'
-import { createClient } from '@/utils/supabase/client'
-import { redirect } from 'next/navigation'
+import NavBar from '@/components/navbar'
 
-export default async function GalleryLayout({
+export default function LayoutLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-	const supabase = createClient()
-
-	const {
-		data: { user },
-	} = await supabase.auth.getUser()
-
-	if (!user) {
-		redirect('/login')
-	}
-
 	return (
 		<>
-			<NavBar user={user} at='gallery' isCensor={await isCensor()} />
+			<NavBar />
 			{children}
 		</>
 	)

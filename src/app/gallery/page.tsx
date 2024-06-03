@@ -1,43 +1,54 @@
-'use server'
+import { getImages } from '@/actions/api/Bunny'
+import CardContainer from '@/components/card-container'
+import Pagination from '@/components/pagination'
+import Toolbar from '@/components/toolbar'
+import { DateTime } from 'luxon'
+import { SearchParams } from 'nuqs/parsers'
+import { Suspense } from 'react'
+import Loading from './loading'
+import { searchParamsCache } from './searchParams'
 
-import getFilesFromBunny from '@/actions/getFilesFromBunny'
-import getNameById from '@/actions/getNameById'
-import GalleryContainer from '@/components/ui/GalleryContainer'
-import { createClient } from '@/utils/supabase/client'
-
-export default async function Gallery() {
-	const userFiles: BunnyFile[] = []
-	const otherFiles: BunnyFile[] = []
-	const supabase = createClient()
-	const userId = (await supabase.auth.getUser()).data.user?.id
-
-	await Promise.all(
-		((await getFilesFromBunny()) as any[]).map(async file => {
-			if (file.ObjectName.split('_')[0] == userId) {
-				userFiles.push({
-					name: file.ObjectName,
-					url: `${process.env.BUNNY_CDN_URL}/${encodeURIComponent(file.ObjectName)}`,
-					author: await getNameById(file.ObjectName.split('_')[0]),
-				})
-			} else {
-				otherFiles.push({
-					name: file.ObjectName,
-					url: `${process.env.BUNNY_CDN_URL}/${encodeURIComponent(file.ObjectName)}`,
-					author: await getNameById(file.ObjectName.split('_')[0]),
-				})
-			}
-		}),
-	)
-
-	return (
-		<div className=''>
-			<GalleryContainer userFiles={userFiles} otherFiles={otherFiles} />
-		</div>
-	)
+interface PageProps {
+	searchParams: SearchParams
 }
 
-export interface BunnyFile {
-	name: string
-	url: string
-	author: string
+export default async function Gallery({ searchParams }: PageProps) {
+	searchParamsCache.parse(searchParams)
+
+	const { p, pp, q, s } = searchParamsCache.all()
+	const cardPerPage = pp
+	const currentPage = p
+
+	const data = await getImages()
+
+	const indexOfLastCard = currentPage * Number(cardPerPage)
+	const indexOfFirstCard = indexOfLastCard - Number(cardPerPage)
+	const cards = data.slice(indexOfFirstCard, indexOfLastCard)
+	const maxPages = Math.ceil(data.length / Number(cardPerPage))
+
+	if (s === 'newest') {
+		cards.sort((a, b) => {
+			const datetimeA = DateTime.fromISO(a.datetime)
+			const datetimeB = DateTime.fromISO(b.datetime)
+			return datetimeB.diff(datetimeA).milliseconds
+		})
+	}
+
+	return (
+		<div className='min-h-screen w-full'>
+			<div className='mt-6 w-full'>
+				<p className='text-5xl font-semibold text-center'>Gallery</p>
+				<p className='text-2xl font-light text-center'>
+					Discover awesome pictures uploaded by players
+				</p>
+				<Toolbar />
+				<Pagination maxPages={maxPages} />
+				<Suspense fallback={<Loading />}>
+					<CardContainer images={cards} search={q} />
+				</Suspense>
+				<Pagination maxPages={maxPages} />
+			</div>
+			<div className=''></div>
+		</div>
+	)
 }
