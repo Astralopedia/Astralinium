@@ -1,6 +1,6 @@
 'use server'
 
-import { getImages } from '@/actions/api/Bunny'
+import { ImageType, getImages } from '@/actions/api/Bunny'
 import getUsernameById from '@/actions/clerk/getUsernameById'
 import Appearance from '@/components/appearance'
 import Menu from '@/components/menu'
@@ -44,6 +44,9 @@ export default async function Dashboard({ searchParams }: PageProps) {
 			),
 		})),
 	)
+	const userImages: ImageType[] = data.filter(
+		image => image.author === user?.username,
+	)
 
 	return (
 		<div className='w-full h-full text-base-content'>
@@ -73,7 +76,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
 				<div className='col-span-3 md:col-span-2 w-full h-full bg-base-200 rounded-2xl'>
 					{t === 'my-gallery' ? (
 						<Suspense fallback={<Loading />}>
-							<MyGallery images={data} />
+							<MyGallery images={userImages} />
 						</Suspense>
 					) : t === 'upload-files' ? (
 						<div>
