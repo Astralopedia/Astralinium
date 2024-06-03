@@ -16,7 +16,7 @@ export default function Menu() {
 
 	return (
 		<ul className='menu bg-base-200 w-full rounded-2xl font-semibold'>
-			<Protect permission='org:image:add'>
+			<Protect role='org:admin'>
 				<li className={cn({ active: type === 'review-images' })}>
 					<button
 						className=''

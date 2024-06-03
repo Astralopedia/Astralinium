@@ -83,7 +83,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
 						<Appearance />
 					) : t === 'review-images' ? (
 						<Protect
-							permission='org:image:add'
+							role='org:admin'
 							fallback={<p>Nothing here for you</p>}>
 							<Suspense fallback={<Loading />}>
 								<PrivateGallery images={edgeStoreData} />
