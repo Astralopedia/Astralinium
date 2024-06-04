@@ -45,7 +45,6 @@ export default function UploadFile({ userId }: { userId: string }) {
 		setFiles(previousFiles =>
 			previousFiles.filter(file => file.name !== name),
 		)
-		toast.success(`${name} removed successfully`)
 	}
 	const handleSubmit = async () => {
 		setLoading(true)
@@ -59,14 +58,13 @@ export default function UploadFile({ userId }: { userId: string }) {
 						},
 					})
 					removeFile(file.name)
-					toast.success(`${file.name} uploaded successfully`)
+					toast.success(`${files.length} files uploaded successfully`)
 				} catch (error) {
 					toast.error(`${error}`)
 				}
 			}),
 		)
 		setLoading(false)
-		toast.success(`${files.length} files uploaded successfully`)
 	}
 
 	return (
