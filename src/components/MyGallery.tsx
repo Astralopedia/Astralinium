@@ -1,12 +1,28 @@
 'use client'
 
-import { ImageType } from '@/actions/api/Bunny'
+import { ImageType, deleteImage } from '@/actions/api/Bunny'
+import cn from '@/utils/cn'
 import copy from 'copy-to-clipboard'
 import { DateTime } from 'luxon'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 export default function MyGallery({ images }: { images: ImageType[] }) {
+	const router = useRouter()
+	const handleDelete = async (url: string) => {
+		const res = await deleteImage(url)
+
+		if (res) {
+			toast.success('Image deleted successfully')
+		} else {
+			toast.error('Cannot delete image')
+		}
+
+		router.refresh()
+	}
+
 	return (
 		<div className=''>
 			<div className='p-6'>
@@ -45,8 +61,12 @@ export default function MyGallery({ images }: { images: ImageType[] }) {
 										Copy URL
 									</button>
 									<button
-										className='btn btn-error'
-										onClick={() => copy(url)}>
+										className='btn btn-error group'
+										onClick={() => handleDelete(url)}>
+										<span
+											className={cn(
+												'loading loading-spinner loading-md hidden group-focus:block',
+											)}></span>
 										Delete
 									</button>
 								</div>

@@ -2,6 +2,7 @@
 
 import { uploadImage } from '@/actions/api/Bunny'
 import { useEdgeStore } from '@/lib/edgestore'
+import cn from '@/utils/cn'
 import { formatFileSize } from '@edgestore/react/utils'
 import { DateTime } from 'luxon'
 import Image from 'next/image'
@@ -82,15 +83,23 @@ export default function PrivateGallery({
 
 									<div className='card-actions justify-start'>
 										<button
-											className='btn btn-success'
+											className='btn btn-success group'
 											onClick={() =>
 												handleAccept(url, filename)
 											}>
+											<span
+												className={cn(
+													'loading loading-spinner loading-md hidden group-focus:block',
+												)}></span>
 											Accept
 										</button>
 										<button
-											className='btn btn-error'
+											className='btn btn-error group'
 											onClick={() => handleDeny(url)}>
+											<span
+												className={cn(
+													'loading loading-spinner loading-md hidden group-focus:block',
+												)}></span>
 											Deny
 										</button>
 										<Link

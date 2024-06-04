@@ -11,7 +11,6 @@ export async function getImages(): Promise<ImageType[]> {
 				method: 'GET',
 				headers: {
 					AccessKey: process.env.BUNNY_STORAGE_API_KEY!,
-					'Content-Type': 'application/octet-stream',
 				},
 			},
 		)
@@ -43,6 +42,23 @@ export async function uploadImage(url: string, filename: string) {
 				'Content-Type': 'application/octet-stream',
 			},
 			body: Buffer.from(buffer),
+		},
+	)
+
+	return result.ok
+}
+
+export async function deleteImage(url: string) {
+	const result = await fetch(
+		url.replace(
+			process.env.BUNNY_CDN_URL!,
+			`https://storage.bunnycdn.com/${process.env.BUNNY_STORAGE_NAME}/`,
+		),
+		{
+			method: 'DELETE',
+			headers: {
+				AccessKey: process.env.BUNNY_STORAGE_API_KEY!,
+			},
 		},
 	)
 

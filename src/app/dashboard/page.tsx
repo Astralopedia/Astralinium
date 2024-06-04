@@ -65,7 +65,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
 							<p className='text-lg'>
 								You have uploaded{' '}
 								<span className='bg-orange-400 text-white p-1 rounded-lg'>
-									23
+									{userImages.length}
 								</span>{' '}
 								files on Astralinium
 							</p>
