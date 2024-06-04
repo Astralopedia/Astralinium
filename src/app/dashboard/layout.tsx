@@ -1,4 +1,4 @@
-import NavBar from '@/components/navbar'
+import NavBar from '@/components/NavBar'
 import { EdgeStoreProvider } from '@/lib/edgestore'
 
 export default function DashboardLayout({

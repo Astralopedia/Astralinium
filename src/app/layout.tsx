@@ -1,4 +1,4 @@
-import Footer from '@/components/footer'
+import Footer from '@/components/Footer'
 import cn from '@/utils/cn'
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'

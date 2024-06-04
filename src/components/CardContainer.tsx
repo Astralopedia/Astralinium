@@ -1,7 +1,7 @@
 'use server'
 
 import { ImageType } from '@/actions/api/Bunny'
-import Card from './card'
+import Card from './Card'
 
 export interface CardContainerProps {
 	images: ImageType[]
