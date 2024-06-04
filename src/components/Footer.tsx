@@ -57,11 +57,12 @@ export default async function Footer() {
 				/>
 				<p className=''>
 					Astralinium is{' '}
-					<a
-						href='https://github.com/Astralopedia/Astralopedia'
+					<Link
+						href='https://github.com/Astralopedia/Astralinium'
+						target='_blank'
 						className='link link-primary link-hover link-info'>
 						open source
-					</a>
+					</Link>
 				</p>
 				<p>
 					astralopedia/astralinium@
