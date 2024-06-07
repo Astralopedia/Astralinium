@@ -1,15 +1,20 @@
 import Logo from '@/assets/svg/logo.svg'
-import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import {
+	OrganizationSwitcher,
+	Protect,
+	SignInButton,
+	SignedIn,
+	SignedOut,
+	UserButton,
+} from '@clerk/nextjs'
 import { auth } from '@clerk/nextjs/server'
 import { LogIn, Menu } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default function NavBar() {
-	const data = auth()
-
 	return (
-		<div className='navbar bg-base-200 text-base-content'>
+		<nav className='navbar bg-base-200 text-base-content'>
 			<div className='navbar-start'>
 				<div className='dropdown'>
 					<div
@@ -27,9 +32,33 @@ export default function NavBar() {
 							</Link>
 						</li>
 						<li>
-							<Link href='/dashboard' className='font-medium'>
-								Dashboard
-							</Link>
+							<details>
+								<summary>Dashboard</summary>
+								<ul className='p-2 bg-base-200 rounded-t-none'>
+									<li>
+										<Link href='/my-gallery'>
+											My Gallery
+										</Link>
+									</li>
+									<li>
+										<Link href='/upload-file'>
+											Upload File
+										</Link>
+									</li>
+									<li>
+										<Link href='/appearance'>
+											Appearance
+										</Link>
+									</li>
+									<Protect role='org:admin'>
+										<li>
+											<Link href='/private-gallery'>
+												Review Images
+											</Link>
+										</li>
+									</Protect>
+								</ul>
+							</details>
 						</li>
 						<li>
 							<Link href='/gallery' className='font-medium'>
@@ -51,9 +80,27 @@ export default function NavBar() {
 						</Link>
 					</li>
 					<li>
-						<Link href='/dashboard' className='font-medium'>
-							Dashboard
-						</Link>
+						<details>
+							<summary>Dashboard</summary>
+							<ul className='p-2 bg-base-200 rounded-t-none'>
+								<li>
+									<Link href='/my-gallery'>My Gallery</Link>
+								</li>
+								<li>
+									<Link href='/upload-file'>Upload File</Link>
+								</li>
+								<li>
+									<Link href='/appearance'>Appearance</Link>
+								</li>
+								<Protect role='org:admin'>
+									<li>
+										<Link href='/private-gallery'>
+											Review Images
+										</Link>
+									</li>
+								</Protect>
+							</ul>
+						</details>
 					</li>
 					<li>
 						<Link href='/gallery' className='font-medium'>
@@ -65,6 +112,7 @@ export default function NavBar() {
 			<div className='navbar-end'>
 				<SignedIn>
 					<div className='mr-3'>
+						<OrganizationSwitcher />
 						<UserButton />
 					</div>
 				</SignedIn>
@@ -77,6 +125,6 @@ export default function NavBar() {
 					</SignInButton>
 				</SignedOut>
 			</div>
-		</div>
+		</nav>
 	)
 }

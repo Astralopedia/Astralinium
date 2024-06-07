@@ -1,4 +1,6 @@
 import Footer from '@/components/Footer'
+import NavBar from '@/components/NavBar'
+import { EdgeStoreProvider } from '@/lib/edgestore'
 import cn from '@/utils/cn'
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
@@ -24,20 +26,33 @@ export default function RootLayout({
 }>) {
 	return (
 		<ClerkProvider appearance={{ baseTheme: dark }}>
-			<html lang='en' suppressHydrationWarning>
-				<body
-					className={cn(
-						'min-h-screen font-sans antialiased',
-						fontSans.variable,
-					)}>
-					<ThemeProvider
-						themes={['light', 'dark', 'dracula', 'black', 'night']}>
-						{children}
-						<Footer />
-						<Toaster position='top-right' richColors theme='dark' />
-					</ThemeProvider>
-				</body>
-			</html>
+			<EdgeStoreProvider>
+				<html lang='en' suppressHydrationWarning>
+					<body
+						className={cn(
+							'min-h-screen font-sans antialiased',
+							fontSans.variable,
+						)}>
+						<ThemeProvider
+							themes={[
+								'light',
+								'dark',
+								'dracula',
+								'black',
+								'night',
+							]}>
+							<NavBar />
+							{children}
+							<Footer />
+							<Toaster
+								position='top-right'
+								richColors
+								theme='dark'
+							/>
+						</ThemeProvider>
+					</body>
+				</html>
+			</EdgeStoreProvider>
 		</ClerkProvider>
 	)
 }

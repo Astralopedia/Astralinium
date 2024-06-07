@@ -6,8 +6,8 @@ export default function Appearance() {
 	const { theme, setTheme } = useTheme()
 
 	return (
-		<div className=''>
-			<div className='p-6'>
+		<div className='w-full max-w-6xl h-full py-16'>
+			<div className='bg-base-300 rounded-2xl p-6'>
 				<p className='text-3xl font-bold'>Color theme</p>
 				<p className='text-lg my-2'>
 					Select your preferred color theme for Astralinium

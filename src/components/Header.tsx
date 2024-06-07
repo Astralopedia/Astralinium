@@ -1,4 +1,4 @@
-import { BookImage, LayoutDashboard } from 'lucide-react'
+import { BookImage } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Header() {
@@ -21,12 +21,6 @@ export default function Header() {
 					ever before
 				</p>
 				<div className='inline-flex flex-col sm:flex-row gap-3 w-2/3 justify-center'>
-					<Link
-						href='/dashboard'
-						className='btn btn-accent rounded-xl w-full sm:w-auto'>
-						<LayoutDashboard />
-						Dashboard
-					</Link>
 					<Link
 						href='/gallery'
 						className='btn btn-secondary rounded-xl w-full sm:w-auto'>

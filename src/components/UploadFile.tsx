@@ -68,9 +68,9 @@ export default function UploadFile({ userId }: { userId: string }) {
 	}
 
 	return (
-		<div className='w-full h-full grid place-items-center p-8'>
+		<div className='w-full max-w-5xl h-full grid place-items-center p-6'>
 			<div
-				className='text-center border-dashed border-2 border-base-content p-6 rounded-2xl'
+				className='text-center border-dashed border-2 border-base-content p-6 rounded-2xl w-full'
 				{...getRootProps()}>
 				<FileIcon className='w-16 h-16 mx-auto my-2' />
 				<input {...getInputProps()} />
