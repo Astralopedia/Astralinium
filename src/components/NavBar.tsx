@@ -82,7 +82,7 @@ export default function NavBar() {
 					<li>
 						<details>
 							<summary>Dashboard</summary>
-							<ul className='p-2 bg-base-200 rounded-t-none'>
+							<ul className='p-2 bg-base-200 rounded-t-none z-[1]'>
 								<li>
 									<Link href='/my-gallery'>My Gallery</Link>
 								</li>
