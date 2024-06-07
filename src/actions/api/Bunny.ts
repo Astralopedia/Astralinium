@@ -1,6 +1,5 @@
 'use server'
 
-import fetch from 'node-fetch'
 import getUsernameById from '../clerk/getUsernameById'
 
 export async function getImages(): Promise<ImageType[]> {
